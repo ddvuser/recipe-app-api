@@ -15,6 +15,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Create temporary .env file
+        run: |
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env.dev
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.dev
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env.dev
+          echo "DB_PASS=${{ secrets.DB_PASS }}" >> .env.dev
       - name: Test
         run: docker-compose run --rm app sh -c "python manage.py test"
       - name: Lint
